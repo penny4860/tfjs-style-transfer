@@ -20,6 +20,13 @@ import * as tf from '@tensorflow/tfjs';
 tf.ENV.set('WEBGL_PACK', false);  // This needs to be done otherwise things run very slow v1.0.4
 import links from './links';
 
+// 1. html 에 의존성이 있는 element 들을 정의
+const ID_FILE_SELECT = 'file-select';
+const ID_MOBILE_WARNING = 'mobile-warning';
+const ID_MODEL_SELECT_STYLE = 'model-select-style';
+const ID_MODEL_SELECT_TRANSFORMER = 'model-select-transformer';
+
+
 /**
  * Main application to start on window load
  */
