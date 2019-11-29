@@ -415,35 +415,7 @@ class Main {
   }
 
   async startCombining() {
-    await tf.nextFrame();
-    this.combineButton.textContent = 'Generating 100D style representation of image 1';
-    await tf.nextFrame();
-    const bottleneck1 = await tf.tidy(() => {
-      return this.styleNet.predict(tf.browser.fromPixels(this.combStyleImg1).toFloat().div(tf.scalar(255)).expandDims());
-    })
-    
-    this.combineButton.textContent = 'Generating 100D style representation of image 2';
-    await tf.nextFrame();
-    const bottleneck2 = await tf.tidy(() => {
-      return this.styleNet.predict(tf.browser.fromPixels(this.combStyleImg2).toFloat().div(tf.scalar(255)).expandDims());
-    });
-
-    this.combineButton.textContent = 'Stylizing image...';
-    await tf.nextFrame();
-    const combinedBottleneck = await tf.tidy(() => {
-      const scaledBottleneck1 = bottleneck1.mul(tf.scalar(1-this.combStyleRatio));
-      const scaledBottleneck2 = bottleneck2.mul(tf.scalar(this.combStyleRatio));
-      return scaledBottleneck1.addStrict(scaledBottleneck2);
-    });
-
-    const stylized = await tf.tidy(() => {
-      return this.transformNet.predict([tf.browser.fromPixels(this.combContentImg).toFloat().div(tf.scalar(255)).expandDims(), combinedBottleneck]).squeeze();
-    })
-    await tf.browser.toPixels(stylized, this.combStylized);
-    bottleneck1.dispose();  // Might wanna keep this around
-    bottleneck2.dispose();
-    combinedBottleneck.dispose();
-    stylized.dispose();
+    console.log("startCombining() called");
   }
 
   async benchmark() {
