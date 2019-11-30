@@ -68,36 +68,6 @@ class Main {
     this.fileSelect = document.getElementById('file-select');
 
     // Initialize model selection
-    this.modelSelectStyle = document.getElementById('model-select-style');
-    this.modelSelectStyle.onchange = (evt) => {
-      if (evt.target.value === 'mobilenet') {
-        this.disableStylizeButtons();
-        this.loadMobileNetStyleModel().then(model => {
-          this.styleNet = model;
-        }).finally(() => this.enableStylizeButtons());
-      } else if (evt.target.value === 'inception') {
-        this.disableStylizeButtons();
-        this.loadInceptionStyleModel().then(model => {
-          this.styleNet = model;
-        }).finally(() => this.enableStylizeButtons());
-      }
-    }
-
-    this.modelSelectTransformer = document.getElementById('model-select-transformer');
-    this.modelSelectTransformer.onchange = (evt) => {
-      if (evt.target.value === 'original') {
-        this.disableStylizeButtons();
-        this.loadOriginalTransformerModel().then(model => {
-          this.transformNet = model;
-        }).finally(() => this.enableStylizeButtons());
-      } else if (evt.target.value === 'separable') {
-        this.disableStylizeButtons();
-        this.loadSeparableTransformerModel().then(model => {
-          this.transformNet = model;
-        }).finally(() => this.enableStylizeButtons());
-      }
-    }
-
     this.initializeStyleTransfer();
 
     Promise.all([
@@ -118,25 +88,6 @@ class Main {
     }
 
     return this.mobileStyleNet;
-  }
-
-  async loadInceptionStyleModel() {
-    if (!this.inceptionStyleNet) {
-      this.inceptionStyleNet = await tf.loadGraphModel(
-        'saved_model_style_inception_js/model.json');
-    }
-    
-    return this.inceptionStyleNet;
-  }
-
-  async loadOriginalTransformerModel() {
-    if (!this.originalTransformNet) {
-      this.originalTransformNet = await tf.loadGraphModel(
-        'saved_model_transformer_js/model.json'
-      );
-    }
-
-    return this.originalTransformNet;
   }
 
   async loadSeparableTransformerModel() {
@@ -253,15 +204,11 @@ class Main {
 
   enableStylizeButtons() {
     this.styleButton.disabled = false;
-    this.modelSelectStyle.disabled = false;
-    this.modelSelectTransformer.disabled = false;
     this.styleButton.textContent = 'Stylize';
   }
 
   disableStylizeButtons() {
     this.styleButton.disabled = true;
-    this.modelSelectStyle.disabled = true;
-    this.modelSelectTransformer.disabled = true;
   }
 
   async startStyling() {
