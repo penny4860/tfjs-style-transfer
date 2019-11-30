@@ -31,6 +31,19 @@ class Element {
         this.styleImgSlider = document.getElementById('style-img-size');
         this.styleImgSquare = document.getElementById('style-img-square');
         this.connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
+
+        // Initialize selectors
+        this.contentSelect = document.getElementById('content-select');
+        this.contentSelect.onchange = (evt) => this.setImage(this.contentImg, evt.target.value);
+        this.contentSelect.onclick = () => this.contentSelect.value = '';
+        this.styleSelect = document.getElementById('style-select');
+        this.styleSelect.onchange = (evt) => this.setImage(this.styleImg, evt.target.value);
+        this.styleSelect.onclick = () => this.styleSelect.value = '';
+    }
+
+    // Helper function for setting an image
+    setImage(element, selectedValue) {
+        element.src = 'images/' + selectedValue + '.jpg';
     }
 
     /*
@@ -131,19 +144,6 @@ class Main {
         this.enableStylizeButtons();
       });
     };
-
-    // Initialize selectors
-    this.contentSelect = document.getElementById('content-select');
-    this.contentSelect.onchange = (evt) => this.setImage(this.imgElements.contentImg, evt.target.value);
-    this.contentSelect.onclick = () => this.contentSelect.value = '';
-    this.styleSelect = document.getElementById('style-select');
-    this.styleSelect.onchange = (evt) => this.setImage(this.imgElements.styleImg, evt.target.value);
-    this.styleSelect.onclick = () => this.styleSelect.value = '';
-  }
-
-  // Helper function for setting an image
-  setImage(element, selectedValue) {
-    element.src = 'images/' + selectedValue + '.jpg';
   }
 
   enableStylizeButtons() {
