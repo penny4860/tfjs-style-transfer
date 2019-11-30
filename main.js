@@ -100,7 +100,6 @@ class Main {
 
     this.initalizeWebcamVariables();
     this.initializeStyleTransfer();
-    this.initializeCombineStyles();
 
     Promise.all([
       this.loadMobileNetStyleModel(),
@@ -238,10 +237,6 @@ class Main {
     this.styleSelect = document.getElementById('style-select');
     this.styleSelect.onchange = (evt) => this.setImage(this.styleImg, evt.target.value);
     this.styleSelect.onclick = () => this.styleSelect.value = '';
-  }
-
-  initializeCombineStyles() {
-    console.log("initializeCombineStyles");
   }
 
   connectImageAndSizeSlider(img, slider, square) {
