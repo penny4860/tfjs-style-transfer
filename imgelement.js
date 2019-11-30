@@ -15,27 +15,17 @@ export default class Element {
         }
         this.stylized = document.getElementById('stylized');
 
-        // Initialize selectors
-        this.contentSelect = document.getElementById('content-select');
-        this.contentSelect.onchange = (evt) => this.setImage(this.contentImg, evt.target.value);
-        this.contentSelect.onclick = () => this.contentSelect.value = '';
-        this.styleSelect = document.getElementById('style-select');
-        this.styleSelect.onchange = (evt) => this.setImage(this.styleImg, evt.target.value);
-        this.styleSelect.onclick = () => this.styleSelect.value = '';
+        initImageSelector('content-img', 'content-select');
+        initImageSelector('style-img', 'style-select');
     }
 
     connectImgSlider() {
-        contentImgSlider = document.getElementById('content-img-size');
+        let contentImgSlider = document.getElementById('content-img-size');
         connectImageAndSizeSlider(this.contentImg, contentImgSlider);
 
-        styleImgSlider = document.getElementById('style-img-size');
-        styleImgSquare = document.getElementById('style-img-square');
+        let styleImgSlider = document.getElementById('style-img-size');
+        let styleImgSquare = document.getElementById('style-img-square');
         connectImageAndSizeSlider(this.styleImg, styleImgSlider, styleImgSquare);
-    }
-
-    // Helper function for setting an image
-    setImage(element, selectedValue) {
-        element.src = 'images/' + selectedValue + '.jpg';
     }
 }
 
@@ -64,3 +54,11 @@ function connectImageAndSizeSlider(img, slider, square=undefined) {
     }
 }
 
+function initImageSelector(imageId, selectorId) {
+    let selector = document.getElementById(selectorId);
+    let image = document.getElementById(imageId);
+    selector.onchange = (evt) => {
+        image.src = 'images/' + evt.target.value + '.jpg';
+    };
+    selector.onclick = () => selector.value = '';
+}
