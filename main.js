@@ -64,12 +64,6 @@ class Main {
   }
 
   initializeStyleTransfer() {
-    // Initialize images
-    this.imgElements.styleImg = document.getElementById('style-img');
-    this.imgElements.styleImg.onerror = () => {
-      alert("Error loading " + this.imgElements.styleImg.src + ".");
-    }
-    this.imgElements.stylized = document.getElementById('stylized');
 
     // Initialize images
     this.contentImgSlider = document.getElementById('content-img-size');
