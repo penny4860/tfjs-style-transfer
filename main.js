@@ -98,7 +98,6 @@ class Main {
       }
     }
 
-    this.initalizeWebcamVariables();
     this.initializeStyleTransfer();
 
     Promise.all([
@@ -148,37 +147,6 @@ class Main {
     }
 
     return this.separableTransformNet;
-  }
-
-  initalizeWebcamVariables() {
-    this.camModal = $('#cam-modal');
-
-    this.snapButton = document.getElementById('snap-button');
-    this.webcamVideoElement = document.getElementById('webcam-video');
-
-    navigator.getUserMedia = navigator.getUserMedia ||
-        navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
-
-    this.camModal.on('hidden.bs.modal', () => {
-      this.stream.getTracks()[0].stop();
-    })
-
-    this.camModal.on('shown.bs.modal', () => {
-      navigator.getUserMedia(
-        {
-          video: true
-        },
-        (stream) => {
-          this.stream = stream;
-          this.webcamVideoElement.srcObject = stream;
-          this.webcamVideoElement.play();
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
-    })
   }
 
   openModal(element) {
