@@ -15,14 +15,6 @@ export default class Element {
         }
         this.stylized = document.getElementById('stylized');
 
-        this.contentImgSlider = document.getElementById('content-img-size');
-        connectImageAndSizeSlider(this.contentImg, this.contentImgSlider);
-
-        // Initialize images
-        this.styleImgSlider = document.getElementById('style-img-size');
-        this.styleImgSquare = document.getElementById('style-img-square');
-        connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
-
         // Initialize selectors
         this.contentSelect = document.getElementById('content-select');
         this.contentSelect.onchange = (evt) => this.setImage(this.contentImg, evt.target.value);
@@ -30,6 +22,15 @@ export default class Element {
         this.styleSelect = document.getElementById('style-select');
         this.styleSelect.onchange = (evt) => this.setImage(this.styleImg, evt.target.value);
         this.styleSelect.onclick = () => this.styleSelect.value = '';
+    }
+
+    connectImgSlider() {
+        contentImgSlider = document.getElementById('content-img-size');
+        connectImageAndSizeSlider(this.contentImg, contentImgSlider);
+
+        styleImgSlider = document.getElementById('style-img-size');
+        styleImgSquare = document.getElementById('style-img-square');
+        connectImageAndSizeSlider(this.styleImg, styleImgSlider, styleImgSquare);
     }
 
     // Helper function for setting an image
