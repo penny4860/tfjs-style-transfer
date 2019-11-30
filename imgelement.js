@@ -7,13 +7,14 @@ export default class Element {
         // image elements
         this.contentImg = document.getElementById('content-img');
         this.contentImg.onerror = () => {
-          alert("Error loading " + this.contentImg.src + ".");
+            alert("Error loading " + this.contentImg.src + ".");
         }
         this.styleImg = document.getElementById('style-img');
         this.styleImg.onerror = () => {
-          alert("Error loading " + this.styleImg.src + ".");
+            alert("Error loading " + this.styleImg.src + ".");
         }
         this.stylized = document.getElementById('stylized');
+        this.runButton = document.getElementById('style-button');
 
         connectImgAndSelector('content-img', 'content-select');
         connectImgAndSlider('content-img', 'content-img-size');
@@ -21,6 +22,16 @@ export default class Element {
         connectImgAndSelector('style-img', 'style-select');
         connectImgAndSlider('style-img', 'style-img-size');
     }
+
+    enableRunButtons() {
+        this.runButton.disabled = false;
+        this.runButton.textContent = 'Stylize';
+    }
+
+    disableRunButtons() {
+        this.runButton.disabled = true;
+    }
+
 }
 
 /*
@@ -38,7 +49,7 @@ function connectImgAndSlider(imgId, sliderId) {
         if (img.style.width) {
             // If this branch is triggered, then that means the image was forced to a square using
             // a fixed pixel value.
-            img.style.width = img.height+"px";  // Fix width back to a square
+            img.style.width = img.height + "px";  // Fix width back to a square
         }
     }
 }

@@ -12,48 +12,31 @@ import Element from './imgelement'
  * Main application to start on window load
  */
 class Main {
-  constructor() {
+    constructor() {
 
-    this.imgElements = new Element();
-    this.styleModel = new StyleModel();
+        this.imgElements = new Element();
+        this.styleModel = new StyleModel();
 
-    // Initialize model selection
-    this.initializeStyleTransfer();
+        // Initialize buttons
+        this.imgElements.runButton.onclick = () => {
+            this.imgElements.disableRunButtons();
+            this.startStyling().finally(() => {
+                this.imgElements.enableRunButtons();
+            });
+        };
 
-    Promise.all([
-      this.styleModel.loadMobileNetStyleModel(),
-      this.styleModel.loadSeparableTransformerModel(),
-    ]).then(() => {
-      console.log('Loaded styleNet');
-      this.enableStylizeButtons()
-    });
-  }
+        Promise.all([
+            this.styleModel.loadMobileNetStyleModel(),
+            this.styleModel.loadSeparableTransformerModel(),
+        ]).then(() => {
+            console.log('Loaded styleNet');
+            this.imgElements.enableRunButtons()
+        });
+    }
 
-
-  initializeStyleTransfer() {    
-
-    // Initialize buttons
-    this.styleButton = document.getElementById('style-button');
-    this.styleButton.onclick = () => {
-      this.disableStylizeButtons();
-      this.startStyling().finally(() => {
-        this.enableStylizeButtons();
-      });
-    };
-  }
-
-  enableStylizeButtons() {
-    this.styleButton.disabled = false;
-    this.styleButton.textContent = 'Stylize';
-  }
-
-  disableStylizeButtons() {
-    this.styleButton.disabled = true;
-  }
-
-  async startStyling() {
-    this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
-  }
+    async startStyling() {
+        this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
+    }
 }
 
 window.addEventListener('load', () => new Main());
