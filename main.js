@@ -4,18 +4,22 @@ import * as tf from '@tensorflow/tfjs';
 tf.ENV.set('WEBGL_PACK', false);  // This needs to be done otherwise things run very slow v1.0.4
 
 // 1. html 에 의존성이 있는 element 들을 정의
-const ID_MODEL_SELECT_STYLE = document.getElementById('model-select-style');
-const ID_MODEL_SELECT_TRANSFORMER = document.getElementById('model-select-transformer');
-const ID_contentImg = document.getElementById('content-img');
-const ID_styleImg = document.getElementById('style-img');
-const ID_stylized = document.getElementById('stylized');
-const ID_contentImgSlider = document.getElementById('content-img-size');
-const ID_styleImgSlider = document.getElementById('style-img-size');
-const ID_styleImgSquare = document.getElementById('style-img-square');
-const ID_styleRatioSlider = document.getElementById('stylized-img-ratio');
-const ID_styleButton = document.getElementById('style-button');
-const ID_content_select = document.getElementById('content-select');
-const ID_style_select = document.getElementById('style-select');
+class Element {
+    constructor() {
+
+        // image elements
+        this.contentImg = document.getElementById('content-img');
+        this.contentImg.onerror = () => {
+          alert("Error loading " + this.contentImg.src + ".");
+        }
+        this.styleImg = document.getElementById('style-img');
+        this.styleImg.onerror = () => {
+          alert("Error loading " + this.styleImg.src + ".");
+        }
+        this.stylized = document.getElementById('stylized');
+    }
+}
+
 
 
 /**
@@ -23,6 +27,8 @@ const ID_style_select = document.getElementById('style-select');
  */
 class Main {
   constructor() {
+
+    this.imgElements = new Element();
 
     // Initialize model selection
     this.initializeStyleTransfer();
@@ -59,22 +65,18 @@ class Main {
 
   initializeStyleTransfer() {
     // Initialize images
-    this.contentImg = document.getElementById('content-img');
-    this.contentImg.onerror = () => {
-      alert("Error loading " + this.contentImg.src + ".");
+    this.imgElements.styleImg = document.getElementById('style-img');
+    this.imgElements.styleImg.onerror = () => {
+      alert("Error loading " + this.imgElements.styleImg.src + ".");
     }
-    this.styleImg = document.getElementById('style-img');
-    this.styleImg.onerror = () => {
-      alert("Error loading " + this.styleImg.src + ".");
-    }
-    this.stylized = document.getElementById('stylized');
+    this.imgElements.stylized = document.getElementById('stylized');
 
     // Initialize images
     this.contentImgSlider = document.getElementById('content-img-size');
-    this.connectImageAndSizeSlider(this.contentImg, this.contentImgSlider);
+    this.connectImageAndSizeSlider(this.imgElements.contentImg, this.contentImgSlider);
     this.styleImgSlider = document.getElementById('style-img-size');
     this.styleImgSquare = document.getElementById('style-img-square');
-    this.connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
+    this.connectImageAndSizeSlider(this.imgElements.styleImg, this.styleImgSlider, this.styleImgSquare);
     
     this.styleRatio = 1.0
     this.styleRatioSlider = document.getElementById('stylized-img-ratio');
@@ -93,10 +95,10 @@ class Main {
 
     // Initialize selectors
     this.contentSelect = document.getElementById('content-select');
-    this.contentSelect.onchange = (evt) => this.setImage(this.contentImg, evt.target.value);
+    this.contentSelect.onchange = (evt) => this.setImage(this.imgElements.contentImg, evt.target.value);
     this.contentSelect.onclick = () => this.contentSelect.value = '';
     this.styleSelect = document.getElementById('style-select');
-    this.styleSelect.onchange = (evt) => this.setImage(this.styleImg, evt.target.value);
+    this.styleSelect.onchange = (evt) => this.setImage(this.imgElements.styleImg, evt.target.value);
     this.styleSelect.onclick = () => this.styleSelect.value = '';
   }
 
@@ -139,13 +141,13 @@ class Main {
     this.styleButton.textContent = 'Generating 100D style representation';
     await tf.nextFrame();
     let bottleneck = await tf.tidy(() => {
-      return this.styleNet.predict(tf.browser.fromPixels(this.styleImg).toFloat().div(tf.scalar(255)).expandDims());
+      return this.styleNet.predict(tf.browser.fromPixels(this.imgElements.styleImg).toFloat().div(tf.scalar(255)).expandDims());
     })
     if (this.styleRatio !== 1.0) {
       this.styleButton.textContent = 'Generating 100D identity style representation';
       await tf.nextFrame();
       const identityBottleneck = await tf.tidy(() => {
-        return this.styleNet.predict(tf.browser.fromPixels(this.contentImg).toFloat().div(tf.scalar(255)).expandDims());
+        return this.styleNet.predict(tf.browser.fromPixels(this.imgElements.contentImg).toFloat().div(tf.scalar(255)).expandDims());
       })
       const styleBottleneck = bottleneck;
       bottleneck = await tf.tidy(() => {
@@ -159,9 +161,9 @@ class Main {
     this.styleButton.textContent = 'Stylizing image...';
     await tf.nextFrame();
     const stylized = await tf.tidy(() => {
-      return this.transformNet.predict([tf.browser.fromPixels(this.contentImg).toFloat().div(tf.scalar(255)).expandDims(), bottleneck]).squeeze();
+      return this.transformNet.predict([tf.browser.fromPixels(this.imgElements.contentImg).toFloat().div(tf.scalar(255)).expandDims(), bottleneck]).squeeze();
     })
-    await tf.browser.toPixels(stylized, this.stylized);
+    await tf.browser.toPixels(stylized, this.imgElements.stylized);
     bottleneck.dispose();  // Might wanna keep this around
     stylized.dispose();
   }
