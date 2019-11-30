@@ -15,11 +15,10 @@ export default class Element {
         }
         this.stylized = document.getElementById('stylized');
 
-        initImageSelector('content-img', 'content-select');
-        initImageSelector('style-img', 'style-select');
-    }
+        connectImgAndSelector('content-img', 'content-select');
+        connectImgAndSelector('style-img', 'style-select');
 
-    connectImgSlider() {
+
         let contentImgSlider = document.getElementById('content-img-size');
         connectImageAndSizeSlider(this.contentImg, contentImgSlider);
 
@@ -54,7 +53,17 @@ function connectImageAndSizeSlider(img, slider, square=undefined) {
     }
 }
 
-function initImageSelector(imageId, selectorId) {
+function connectImgAndSelector(imageId, selectorId) {
+    /*
+        imageId : img 태그의 ID
+            <img id="content-img" class="centered" src="images/chicago.jpg" height=256></img>
+        selectorId : select 태그의 ID
+            <select id="content-select" class="centered custom-select">
+                <option value="" disabled>Select content</option>
+                <option value="stata">stata</option>
+                ...
+            </select>
+    */
     let selector = document.getElementById(selectorId);
     let image = document.getElementById(imageId);
     selector.onchange = (evt) => {
