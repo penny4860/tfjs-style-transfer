@@ -165,26 +165,7 @@ class Main {
 
   // Helper function for setting an image
   setImage(element, selectedValue) {
-    if (selectedValue === 'file') {
-      console.log('file selected');
-      this.fileSelect.onchange = (evt) => {
-        const f = evt.target.files[0];
-        const fileReader = new FileReader();
-        fileReader.onload = ((e) => {
-          element.src = e.target.result;
-        });
-        fileReader.readAsDataURL(f);
-        this.fileSelect.value = '';
-      }
-      this.fileSelect.click();
-    } else if (selectedValue === 'pic') {
-        console.log("selectedValue === 'pic'");
-    } else if (selectedValue === 'random') {
-      const randomNumber = Math.floor(Math.random()*links.length);
-      element.src = links[randomNumber];
-    } else {
-      element.src = 'images/' + selectedValue + '.jpg';
-    }
+    element.src = 'images/' + selectedValue + '.jpg';
   }
 
   enableStylizeButtons() {
