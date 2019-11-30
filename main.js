@@ -18,16 +18,10 @@
 import 'babel-polyfill';
 import * as tf from '@tensorflow/tfjs';
 tf.ENV.set('WEBGL_PACK', false);  // This needs to be done otherwise things run very slow v1.0.4
-import links from './links';
 
 // 1. html 에 의존성이 있는 element 들을 정의
-const ID_FILE_SELECT = document.getElementById('file-select');
-const ID_MOBILE_WARNING = document.getElementById('mobile-warning');
 const ID_MODEL_SELECT_STYLE = document.getElementById('model-select-style');
 const ID_MODEL_SELECT_TRANSFORMER = document.getElementById('model-select-transformer');
-const ID_snapButton = document.getElementById('snap-button');
-const ID_webcamVideoElement = document.getElementById('webcam-video');
-const ID_hiddenCanvas = document.getElementById('hidden-canvas');
 const ID_contentImg = document.getElementById('content-img');
 const ID_styleImg = document.getElementById('style-img');
 const ID_stylized = document.getElementById('stylized');
@@ -36,24 +30,8 @@ const ID_styleImgSlider = document.getElementById('style-img-size');
 const ID_styleImgSquare = document.getElementById('style-img-square');
 const ID_styleRatioSlider = document.getElementById('stylized-img-ratio');
 const ID_styleButton = document.getElementById('style-button');
-const ID_randomize = document.getElementById('randomize');
 const ID_content_select = document.getElementById('content-select');
 const ID_style_select = document.getElementById('style-select');
-const ID_c_content_img = document.getElementById('c-content-img');
-const ID_c_style_img_1 = document.getElementById('c-style-img-1');
-const ID_c_style_img_2 = document.getElementById('c-style-img-2');
-const ID_c_stylized = document.getElementById('c-stylized');
-const ID_c_content_img_size = document.getElementById('c-content-img-size');
-const ID_c_style_img_1_size = document.getElementById('c-style-img-1-size');
-const ID_c_style_1_square = document.getElementById('c-style-1-square');
-const ID_c_style_img_2_size = document.getElementById('c-style-img-2-size');
-const ID_c_style_2_square = document.getElementById('c-style-2-square');
-const ID_combStyleRatioSlider = document.getElementById('c-stylized-img-ratio');
-const ID_combineButton = document.getElementById('combine-button');
-const ID_combRandomizeButton = document.getElementById('c-randomize');
-const ID_combContentSelect = document.getElementById('c-content-select');
-const ID_combStyle1Select = document.getElementById('c-style-1-select');
-const ID_combStyle2Select = document.getElementById('c-style-2-select');
 
 
 /**
@@ -205,5 +183,4 @@ class Main {
   }
 }
 
-};
 window.addEventListener('load', () => new Main());
