@@ -17,7 +17,40 @@ class Element {
           alert("Error loading " + this.styleImg.src + ".");
         }
         this.stylized = document.getElementById('stylized');
+
+        this.contentImgSlider = document.getElementById('content-img-size');
+        this.connectImageAndSizeSlider(this.imgElements.contentImg, this.contentImgSlider);
+
+        // Initialize images
+        this.styleImgSlider = document.getElementById('style-img-size');
+        this.styleImgSquare = document.getElementById('style-img-square');
+        this.connectImageAndSizeSlider(this.imgElements.styleImg, this.styleImgSlider, this.styleImgSquare);    
     }
+
+    /*
+        img : image element
+        slider : slider element
+        square : check box element
+    */
+    connectImageAndSizeSlider(img, slider, square=undefined) {
+        slider.oninput = (evt) => {
+          img.height = evt.target.value;
+          if (img.style.width) {
+            // If this branch is triggered, then that means the image was forced to a square using
+            // a fixed pixel value.
+            img.style.width = img.height+"px";  // Fix width back to a square
+          }
+        }
+        if (square !== undefined) {
+          square.onclick = (evt) => {
+            if (evt.target.checked) {
+              img.style.width = img.height+"px";
+            } else {
+              img.style.width = '';
+            }
+          }
+        }
+      }
 }
 
 
@@ -63,15 +96,7 @@ class Main {
     return this.separableTransformNet;
   }
 
-  initializeStyleTransfer() {
-
-    // Initialize images
-    this.contentImgSlider = document.getElementById('content-img-size');
-    this.connectImageAndSizeSlider(this.imgElements.contentImg, this.contentImgSlider);
-    this.styleImgSlider = document.getElementById('style-img-size');
-    this.styleImgSquare = document.getElementById('style-img-square');
-    this.connectImageAndSizeSlider(this.imgElements.styleImg, this.styleImgSlider, this.styleImgSquare);
-    
+  initializeStyleTransfer() {    
     this.styleRatio = 1.0
     this.styleRatioSlider = document.getElementById('stylized-img-ratio');
     this.styleRatioSlider.oninput = (evt) => {
@@ -94,26 +119,6 @@ class Main {
     this.styleSelect = document.getElementById('style-select');
     this.styleSelect.onchange = (evt) => this.setImage(this.imgElements.styleImg, evt.target.value);
     this.styleSelect.onclick = () => this.styleSelect.value = '';
-  }
-
-  connectImageAndSizeSlider(img, slider, square) {
-    slider.oninput = (evt) => {
-      img.height = evt.target.value;
-      if (img.style.width) {
-        // If this branch is triggered, then that means the image was forced to a square using
-        // a fixed pixel value.
-        img.style.width = img.height+"px";  // Fix width back to a square
-      }
-    }
-    if (square !== undefined) {
-      square.onclick = (evt) => {
-        if (evt.target.checked) {
-          img.style.width = img.height+"px";
-        } else {
-          img.style.width = '';
-        }
-      }
-    }
   }
 
   // Helper function for setting an image
