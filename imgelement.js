@@ -16,15 +16,10 @@ export default class Element {
         this.stylized = document.getElementById('stylized');
 
         connectImgAndSelector('content-img', 'content-select');
+        connectImgAndSlider('content-img', 'content-img-size');
+
         connectImgAndSelector('style-img', 'style-select');
-
-
-        let contentImgSlider = document.getElementById('content-img-size');
-        connectImageAndSizeSlider(this.contentImg, contentImgSlider);
-
-        let styleImgSlider = document.getElementById('style-img-size');
-        let styleImgSquare = document.getElementById('style-img-square');
-        connectImageAndSizeSlider(this.styleImg, styleImgSlider, styleImgSquare);
+        connectImgAndSlider('style-img', 'style-img-size');
     }
 }
 
@@ -33,8 +28,12 @@ export default class Element {
     slider : slider element
     square : check box element
 */
-function connectImageAndSizeSlider(img, slider, square=undefined) {
-    slider.oninput = (evt) => {
+function connectImgAndSlider(imgId, sliderId) {
+
+    let img = document.getElementById(imgId);
+    let sizeSlider = document.getElementById(sliderId);
+
+    sizeSlider.oninput = (evt) => {
         img.height = evt.target.value;
         if (img.style.width) {
             // If this branch is triggered, then that means the image was forced to a square using
@@ -42,20 +41,11 @@ function connectImageAndSizeSlider(img, slider, square=undefined) {
             img.style.width = img.height+"px";  // Fix width back to a square
         }
     }
-    if (square !== undefined) {
-        square.onclick = (evt) => {
-            if (evt.target.checked) {
-                img.style.width = img.height+"px";
-            } else {
-                    img.style.width = '';
-            }
-        }
-    }
 }
 
-function connectImgAndSelector(imageId, selectorId) {
+function connectImgAndSelector(imgId, selectorId) {
     /*
-        imageId : img 태그의 ID
+        imgId : img 태그의 ID
             <img id="content-img" class="centered" src="images/chicago.jpg" height=256></img>
         selectorId : select 태그의 ID
             <select id="content-select" class="centered custom-select">
@@ -65,7 +55,7 @@ function connectImgAndSelector(imageId, selectorId) {
             </select>
     */
     let selector = document.getElementById(selectorId);
-    let image = document.getElementById(imageId);
+    let image = document.getElementById(imgId);
     selector.onchange = (evt) => {
         image.src = 'images/' + evt.target.value + '.jpg';
     };
