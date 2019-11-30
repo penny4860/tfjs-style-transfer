@@ -100,21 +100,6 @@ class Main {
     return this.separableTransformNet;
   }
 
-  openModal(element) {
-    this.camModal.modal('show');
-    this.snapButton.onclick = () => {
-      const hiddenCanvas = document.getElementById('hidden-canvas');
-      const hiddenContext = hiddenCanvas.getContext('2d');
-      hiddenCanvas.width = this.webcamVideoElement.width;
-      hiddenCanvas.height = this.webcamVideoElement.height;
-      hiddenContext.drawImage(this.webcamVideoElement, 0, 0, 
-        hiddenCanvas.width, hiddenCanvas.height);
-      const imageDataURL = hiddenCanvas.toDataURL('image/jpg');
-      element.src = imageDataURL;
-      this.camModal.modal('hide');
-    };
-  }
-
   initializeStyleTransfer() {
     // Initialize images
     this.contentImg = document.getElementById('content-img');
@@ -193,7 +178,7 @@ class Main {
       }
       this.fileSelect.click();
     } else if (selectedValue === 'pic') {
-      this.openModal(element);
+        console.log("selectedValue === 'pic'");
     } else if (selectedValue === 'random') {
       const randomNumber = Math.floor(Math.random()*links.length);
       element.src = links[randomNumber];
