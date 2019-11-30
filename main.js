@@ -93,7 +93,7 @@ class StyleModel {
         }
     }
 
-    async startStyling(contentImg, styleImg, stylizedImg) {
+    async run(contentImg, styleImg, stylizedImg) {
         await tf.nextFrame();
         // this.styleButton.textContent = 'Generating 100D style representation';
         await tf.nextFrame();
@@ -108,7 +108,7 @@ class StyleModel {
         await tf.browser.toPixels(stylized, stylizedImg);
         bottleneck.dispose();  // Might wanna keep this around
         stylized.dispose();
-      }
+    }
 }
 
 
@@ -156,7 +156,7 @@ class Main {
   }
 
   async startStyling() {
-    this.styleModel.startStyling(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
+    this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
   }
 }
 
