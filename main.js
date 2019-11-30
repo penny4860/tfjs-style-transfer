@@ -3,6 +3,12 @@ import 'babel-polyfill';
 import * as tf from '@tensorflow/tfjs';
 tf.ENV.set('WEBGL_PACK', false);  // This needs to be done otherwise things run very slow v1.0.4
 
+// ImageElement class
+// UI : stylize button 관련된 동작을 정의
+// Model : tensorflow model 관련된 종작을 정의
+
+
+
 // 1. html 에 의존성이 있는 element 들을 정의
 class Element {
     constructor() {
@@ -54,6 +60,44 @@ class Element {
 }
 
 
+class StyleModel {
+    constructor () {
+        // this.styleNet
+        // this.transformNet
+    }
+    async loadMobileNetStyleModel() {
+        if (!this.styleNet) {
+          this.styleNet = await tf.loadGraphModel(
+            'saved_model_style_js/model.json');
+        }
+    }
+    
+    async loadSeparableTransformerModel() {
+        if (!this.transformNet) {
+            this.transformNet = await tf.loadGraphModel(
+            'saved_model_transformer_separable_js/model.json'
+            );
+        }
+    }
+
+    async startStyling(contentImg, styleImg, stylizedImg) {
+        await tf.nextFrame();
+        // this.styleButton.textContent = 'Generating 100D style representation';
+        await tf.nextFrame();
+        let bottleneck = await tf.tidy(() => {
+          return this.styleNet.predict(tf.browser.fromPixels(styleImg).toFloat().div(tf.scalar(255)).expandDims());
+        })
+        // this.styleButton.textContent = 'Stylizing image...';
+        await tf.nextFrame();
+        const stylized = await tf.tidy(() => {
+          return this.transformNet.predict([tf.browser.fromPixels(contentImg).toFloat().div(tf.scalar(255)).expandDims(), bottleneck]).squeeze();
+        })
+        await tf.browser.toPixels(stylized, stylizedImg);
+        bottleneck.dispose();  // Might wanna keep this around
+        stylized.dispose();
+      }
+}
+
 
 /**
  * Main application to start on window load
@@ -62,39 +106,20 @@ class Main {
   constructor() {
 
     this.imgElements = new Element();
+    this.styleModel = new StyleModel();
 
     // Initialize model selection
     this.initializeStyleTransfer();
 
     Promise.all([
-      this.loadMobileNetStyleModel(),
-      this.loadSeparableTransformerModel(),
-    ]).then(([styleNet, transformNet]) => {
+      this.styleModel.loadMobileNetStyleModel(),
+      this.styleModel.loadSeparableTransformerModel(),
+    ]).then(() => {
       console.log('Loaded styleNet');
-      this.styleNet = styleNet;
-      this.transformNet = transformNet;
       this.enableStylizeButtons()
     });
   }
 
-  async loadMobileNetStyleModel() {
-    if (!this.mobileStyleNet) {
-      this.mobileStyleNet = await tf.loadGraphModel(
-        'saved_model_style_js/model.json');
-    }
-
-    return this.mobileStyleNet;
-  }
-
-  async loadSeparableTransformerModel() {
-    if (!this.separableTransformNet) {
-      this.separableTransformNet = await tf.loadGraphModel(
-        'saved_model_transformer_separable_js/model.json'
-      );
-    }
-
-    return this.separableTransformNet;
-  }
 
   initializeStyleTransfer() {    
 
@@ -131,20 +156,7 @@ class Main {
   }
 
   async startStyling() {
-    await tf.nextFrame();
-    this.styleButton.textContent = 'Generating 100D style representation';
-    await tf.nextFrame();
-    let bottleneck = await tf.tidy(() => {
-      return this.styleNet.predict(tf.browser.fromPixels(this.imgElements.styleImg).toFloat().div(tf.scalar(255)).expandDims());
-    })
-    this.styleButton.textContent = 'Stylizing image...';
-    await tf.nextFrame();
-    const stylized = await tf.tidy(() => {
-      return this.transformNet.predict([tf.browser.fromPixels(this.imgElements.contentImg).toFloat().div(tf.scalar(255)).expandDims(), bottleneck]).squeeze();
-    })
-    await tf.browser.toPixels(stylized, this.imgElements.stylized);
-    bottleneck.dispose();  // Might wanna keep this around
-    stylized.dispose();
+    this.styleModel.startStyling(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
   }
 }
 
