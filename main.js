@@ -19,12 +19,12 @@ class Element {
         this.stylized = document.getElementById('stylized');
 
         this.contentImgSlider = document.getElementById('content-img-size');
-        this.connectImageAndSizeSlider(this.imgElements.contentImg, this.contentImgSlider);
+        this.connectImageAndSizeSlider(this.contentImg, this.contentImgSlider);
 
         // Initialize images
         this.styleImgSlider = document.getElementById('style-img-size');
         this.styleImgSquare = document.getElementById('style-img-square');
-        this.connectImageAndSizeSlider(this.imgElements.styleImg, this.styleImgSlider, this.styleImgSquare);    
+        this.connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);    
     }
 
     /*
