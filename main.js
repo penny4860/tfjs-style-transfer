@@ -241,56 +241,7 @@ class Main {
   }
 
   initializeCombineStyles() {
-    // Initialize images
-    this.combContentImg = document.getElementById('c-content-img');
-    this.combContentImg.onerror = () => {
-      alert("Error loading " + this.combContentImg.src + ".");
-    }
-    this.combStyleImg1 = document.getElementById('c-style-img-1');
-    this.combStyleImg1.onerror = () => {
-      alert("Error loading " + this.combStyleImg1.src + ".");
-    }
-    this.combStyleImg2 = document.getElementById('c-style-img-2');
-    this.combStyleImg2.onerror = () => {
-      alert("Error loading " + this.combStyleImg2.src + ".");
-    }
-    this.combStylized = document.getElementById('c-stylized');
-
-    // Initialize images
-    this.combContentImgSlider = document.getElementById('c-content-img-size');
-    this.connectImageAndSizeSlider(this.combContentImg, this.combContentImgSlider);
-    this.combStyleImg1Slider = document.getElementById('c-style-img-1-size');
-    this.combStyleImg1Square = document.getElementById('c-style-1-square');
-    this.connectImageAndSizeSlider(this.combStyleImg1, this.combStyleImg1Slider, this.combStyleImg1Square);
-    this.combStyleImg2Slider = document.getElementById('c-style-img-2-size');
-    this.combStyleImg2Square = document.getElementById('c-style-2-square');
-    this.connectImageAndSizeSlider(this.combStyleImg2, this.combStyleImg2Slider, this.combStyleImg2Square);
-
-    this.combStyleRatio = 0.5
-    this.combStyleRatioSlider = document.getElementById('c-stylized-img-ratio');
-    this.combStyleRatioSlider.oninput = (evt) => {
-      this.combStyleRatio = evt.target.value/100.;
-    }
-
-    // Initialize buttons
-    this.combineButton = document.getElementById('combine-button');
-    this.combineButton.onclick = () => {
-      this.disableStylizeButtons();
-      this.startCombining().finally(() => {
-        this.enableStylizeButtons();
-      });
-    };
-
-    // Initialize selectors
-    this.combContentSelect = document.getElementById('c-content-select');
-    this.combContentSelect.onchange = (evt) => this.setImage(this.combContentImg, evt.target.value);
-    this.combContentSelect.onclick = () => this.combContentSelect.value = '';
-    this.combStyle1Select = document.getElementById('c-style-1-select');
-    this.combStyle1Select.onchange = (evt) => this.setImage(this.combStyleImg1, evt.target.value);
-    this.combStyle1Select.onclick = () => this.combStyle1Select.value = '';
-    this.combStyle2Select = document.getElementById('c-style-2-select');
-    this.combStyle2Select.onchange = (evt) => this.setImage(this.combStyleImg2, evt.target.value);
-    this.combStyle2Select.onclick = () => this.combStyle2Select.value = '';
+    console.log("initializeCombineStyles");
   }
 
   connectImageAndSizeSlider(img, slider, square) {
@@ -339,16 +290,13 @@ class Main {
 
   enableStylizeButtons() {
     this.styleButton.disabled = false;
-    this.combineButton.disabled = false;
     this.modelSelectStyle.disabled = false;
     this.modelSelectTransformer.disabled = false;
     this.styleButton.textContent = 'Stylize';
-    this.combineButton.textContent = 'Combine Styles';
   }
 
   disableStylizeButtons() {
     this.styleButton.disabled = true;
-    this.combineButton.disabled = true;
     this.modelSelectStyle.disabled = true;
     this.modelSelectTransformer.disabled = true;
   }
@@ -388,10 +336,6 @@ class Main {
   async startCombining() {
     console.log("startCombining() called");
   }
-}
-
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
 window.mobilecheck = function() {
