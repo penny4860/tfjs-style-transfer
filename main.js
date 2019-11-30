@@ -295,10 +295,6 @@ class Main {
     bottleneck.dispose();  // Might wanna keep this around
     stylized.dispose();
   }
-
-  async startCombining() {
-    console.log("startCombining() called");
-  }
 }
 
 window.mobilecheck = function() {
