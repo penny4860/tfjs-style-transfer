@@ -417,18 +417,6 @@ class Main {
   async startCombining() {
     console.log("startCombining() called");
   }
-
-  async benchmark() {
-    console.log("benchmark() called");
-  }
-
-  async benchmarkStyle(x, styleNet) {
-    console.log("benchmarkStyle() called");
-  }
-
-  async benchmarkTransform(x, bottleneck, transformNet) {
-    console.log("benchmarkTransform() called");
-  }
 }
 
 function getRndInteger(min, max) {
