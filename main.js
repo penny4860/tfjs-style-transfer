@@ -230,18 +230,6 @@ class Main {
         this.enableStylizeButtons();
       });
     };
-    this.randomizeButton = document.getElementById('randomize');
-    this.randomizeButton.onclick = () => {
-      this.styleRatioSlider.value = getRndInteger(0, 100);
-      this.contentImgSlider.value = getRndInteger(256, 400);
-      this.styleImgSlider.value = getRndInteger(100, 400);
-      this.styleRatioSlider.dispatchEvent(new Event("input"));
-      this.contentImgSlider.dispatchEvent(new Event("input"));
-      this.styleImgSlider.dispatchEvent(new Event("input"));
-      if (getRndInteger(0, 1)) {
-        this.styleImgSquare.click();
-      }
-    }
 
     // Initialize selectors
     this.contentSelect = document.getElementById('content-select');
@@ -292,23 +280,6 @@ class Main {
         this.enableStylizeButtons();
       });
     };
-    this.combRandomizeButton = document.getElementById('c-randomize');
-    this.combRandomizeButton.onclick = () => {
-      this.combContentImgSlider.value = getRndInteger(256, 400);
-      this.combStyleImg1Slider.value = getRndInteger(100, 400);
-      this.combStyleImg2Slider.value = getRndInteger(100, 400);
-      this.combStyleRatioSlider.value = getRndInteger(0, 100);
-      this.combContentImgSlider.dispatchEvent(new Event("input"));
-      this.combStyleImg1Slider.dispatchEvent(new Event("input"));
-      this.combStyleImg2Slider.dispatchEvent(new Event("input"));
-      this.combStyleRatioSlider.dispatchEvent(new Event("input"));
-      if (getRndInteger(0, 1)) {
-        this.combStyleImg1Square.click();
-      }
-      if (getRndInteger(0, 1)) {
-        this.combStyleImg2Square.click();
-      }
-    }
 
     // Initialize selectors
     this.combContentSelect = document.getElementById('c-content-select');
