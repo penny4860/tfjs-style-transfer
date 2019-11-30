@@ -16,12 +16,12 @@ export default class Element {
         this.stylized = document.getElementById('stylized');
 
         this.contentImgSlider = document.getElementById('content-img-size');
-        this.connectImageAndSizeSlider(this.contentImg, this.contentImgSlider);
+        connectImageAndSizeSlider(this.contentImg, this.contentImgSlider);
 
         // Initialize images
         this.styleImgSlider = document.getElementById('style-img-size');
         this.styleImgSquare = document.getElementById('style-img-square');
-        this.connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
+        connectImageAndSizeSlider(this.styleImg, this.styleImgSlider, this.styleImgSquare);
 
         // Initialize selectors
         this.contentSelect = document.getElementById('content-select');
@@ -36,29 +36,30 @@ export default class Element {
     setImage(element, selectedValue) {
         element.src = 'images/' + selectedValue + '.jpg';
     }
+}
 
-    /*
-        img : image element
-        slider : slider element
-        square : check box element
-    */
-    connectImageAndSizeSlider(img, slider, square=undefined) {
-        slider.oninput = (evt) => {
-          img.height = evt.target.value;
-          if (img.style.width) {
+/*
+    img : image element
+    slider : slider element
+    square : check box element
+*/
+function connectImageAndSizeSlider(img, slider, square=undefined) {
+    slider.oninput = (evt) => {
+        img.height = evt.target.value;
+        if (img.style.width) {
             // If this branch is triggered, then that means the image was forced to a square using
             // a fixed pixel value.
             img.style.width = img.height+"px";  // Fix width back to a square
-          }
         }
-        if (square !== undefined) {
-          square.onclick = (evt) => {
+    }
+    if (square !== undefined) {
+        square.onclick = (evt) => {
             if (evt.target.checked) {
-              img.style.width = img.height+"px";
+                img.style.width = img.height+"px";
             } else {
-              img.style.width = '';
+                    img.style.width = '';
             }
-          }
         }
-      }
+    }
 }
+
