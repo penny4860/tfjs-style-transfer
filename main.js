@@ -15,6 +15,15 @@ class Main {
     constructor() {
 
         this.styleModel = new StyleModel();
+        this.imgElements = new Element();
+
+        // Initialize buttons
+        this.imgElements.runButton.onclick = () => {
+            this.imgElements.disableRunButtons();
+            this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized).finally(() => {
+                this.imgElements.enableRunButtons();
+            })
+        };
 
         // model 로드 로직이 끝나고 run 버튼을 enable
         Promise.all([
@@ -22,10 +31,8 @@ class Main {
             this.styleModel.loadSeparableTransformerModel(),
         ]).then(() => {
             console.log('Loaded styleNet');
-            this.imgElements = new Element(this.styleModel);
             this.imgElements.enableRunButtons()
         });
-
     }
 }
 

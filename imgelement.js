@@ -2,7 +2,7 @@
 
 // 1. html 에 의존성이 있는 element 들을 정의
 export default class Element {
-    constructor(styleModel) {
+    constructor() {
 
         // image elements
         this.contentImg = document.getElementById('content-img');
@@ -21,15 +21,6 @@ export default class Element {
 
         connectImgAndSelector('style-img', 'style-select');
         connectImgAndSlider('style-img', 'style-img-size');
-
-        // Initialize buttons
-        this.runButton.onclick = () => {
-            this.disableRunButtons();
-            styleModel.run(this.contentImg, this.styleImg, this.stylized).finally(() => {
-                this.enableRunButtons();
-            })
-        };
-
     }
 
     enableRunButtons() {
