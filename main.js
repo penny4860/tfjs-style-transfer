@@ -20,9 +20,9 @@ class Main {
         // Initialize buttons
         this.imgElements.runButton.onclick = () => {
             this.imgElements.disableRunButtons();
-            this.startStyling().finally(() => {
+            this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized).finally(() => {
                 this.imgElements.enableRunButtons();
-            });
+            })
         };
 
         Promise.all([
@@ -32,10 +32,6 @@ class Main {
             console.log('Loaded styleNet');
             this.imgElements.enableRunButtons()
         });
-    }
-
-    async startStyling() {
-        this.styleModel.run(this.imgElements.contentImg, this.imgElements.styleImg, this.imgElements.stylized)
     }
 }
 
