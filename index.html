@@ -1,47 +1,15 @@
 <!DOCTYPE html>
-<!--
-Copyright 2018 Reiichiro Nakano All Rights Reserved.
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-==============================================================================
--->
 <html lang="en">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91864013-5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-91864013-5');
-    </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@ReiiYoda" />
-    <meta name="twitter:title" content="Arbitrary Style Transfer with TF.js" />
-    <meta name="twitter:description" content="Paint yourself in the style of any painting, right in the browser." />
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/reiinakano/arbitrary-image-stylization-tfjs/master/readme_img/stylize.jpg" />
-
     <title>Arbitrary Style Transfer in the Browser</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-<script src="dist/bundle.js"></script>
+    <script src="dist/bundle.js"></script>
 </head>
 
 <style>
@@ -288,188 +256,10 @@ limitations under the License.
   </div>
 </div>
 
-<div class="container-fluid pt-5" style="background-color: #f5f5f5;">
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Paint a photograph in the style of anything, right in your browser! Try out arbitrary style transfer! #CreativeAI #creativecoding #generative" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          What is this?
-        </h5>
-        <p>
-          This is an implementation of an arbitrary style transfer algorithm
-          running purely in the browser using TensorFlow.js. As with all neural 
-          style transfer algorithms, a neural network attempts to "draw" one 
-          picture, the Content (usually a photograph), in the style of another, 
-          the Style (usually a painting). 
-        </p>
-        <p>
-          Although <a href="https://github.com/reiinakano/fast-style-transfer-deeplearnjs">other browser implementations</a> of style transfer exist,
-          they are normally limited to a pre-selected handful of styles, due to
-          the requirement that a separate neural network must be trained for each
-          style image.
-        </p>
-        <p>
-          Arbitrary style transfer works around this limitation by using a
-          separate <i>style network</i> that learns to break down <i>any</i> image into 
-          a 100-dimensional vector representing its style. This style vector is 
-          then fed into another network, the <i>transformer network</i>, along
-          with the content image, to produce the final stylized image.
-        </p>
-        <p>
-          I have written a <a href="https://magenta.tensorflow.org/blog/2018/12/20/style-transfer-js/">blog post</a> 
-          explaining this project in more detail.
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          Is my data safe? Can you see my pictures?
-        </h5>
-        <p>
-          Your data and pictures here never leave your computer! In fact,
-          this is one of the main advantages of running neural networks 
-          in your browser. Instead of sending us your data, we send *you* 
-          both the model *and* the code to run the model. These are then 
-          run by your browser.
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          What are all these different models?
-        </h5>
-        <p>
-          The original paper uses an Inception-v3 model 
-          as the style network, which takes up ~36.3MB 
-          when ported to the browser as a FrozenModel.
-        </p>
-        <p>
-          In order to make this model smaller, a MobileNet-v2 was
-          used to distill the knowledge from the pretrained Inception-v3 
-          style network. This resulted in a size reduction of just under 4x,
-          from ~36.3MB to ~9.6MB, at the expense of some quality.
-        </p>
-        <p>
-          For the transformer network, the original paper uses 
-          a model using plain convolution layers. When ported to
-          the browser, this model takes up 7.9MB and is responsible
-          for the majority of the calculations during stylization.
-        </p>
-        <p>
-          In order to make the transformer model more efficient, most of the
-          plain convolution layers were replaced with depthwise separable 
-          convolutions. This reduced the model size to 2.4MB, while
-          drastically improving the speed of stylization.
-        </p>
-        <p>
-          This demo lets you use any combination of the models, defaulting
-          to the MobileNet-v2 style network and the separable convolution
-          transformer network.
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          How big are the models I'm downloading?
-        </h5>
-        <p>
-          The distilled style network is ~9.6MB, while the separable convolution
-          transformer network is ~2.4MB,
-          for a total of ~12MB. Since these models work for any style, you only 
-          have to download them once!
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          How does style combination work?
-        </h5>
-        <p>
-          Since each style can be mapped to a 100-dimensional 
-          style vector by the style network,
-          we simply take a weighted average of the two to get
-          a new style vector for the transformer network.
-        </p>
-        <p>
-          This is also how we are able to control the strength
-          of stylization. We take a weighted average of the style 
-          vectors of <i>both</i> content and style images and use 
-          it as input to the transformer network.
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          Is the code open source?
-        </h5>
-        <p>
-            Yup! The code is <a href="https://github.com/reiinakano/arbitrary-image-stylization-tfjs">hosted on Github</a>.
-        </p>
-    </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-4 offset-md-4">
-        <h5>
-          Credits
-        </h5>
-        <p>
-          This demo was put together by <a href="https://github.com/reiinakano">Reiichiro Nakano</a>
-          but could not have been done without the following:
-        </p>
-        <ul>
-          <li>
-            Authors of the
-            <a href="https://arxiv.org/abs/1705.06830">arbitrary style transfer</a> paper.
-          </li>
-          <li>
-            The Magenta repository for <a href="https://github.com/tensorflow/magenta/tree/master/magenta/models/arbitrary_image_stylization">arbitrary style transfer</a>.
-          </li>
-          <li>
-            Authors of <a href="https://arxiv.org/abs/1801.04381">the MobileNet-v2 paper</a>.
-          </li>
-          <li>
-            Authors of the paper describing <a href="https://arxiv.org/abs/1503.02531">neural network knowledge distillation</a>.
-          </li>
-          <li>
-            The <a href="https://js.tensorflow.org">TensorFlow.js library</a>.
-          </li>
-          <li>
-            <a href="https://colab.research.google.com/">Google Colaboratory</a>, 
-            with which I was able to do all necessary training using a free(!) GPU.
-          </li>
-        </ul>
-        <p>
-            As a final note, I'd love to hear from people interested 
-            in making a suite of tools for artistically manipulating images, kind of like 
-            <a href="https://magenta.tensorflow.org/studio">Magenta Studio</a>
-            but for images. Please reach out if you're planning to build/are 
-            building one out!
-        </p>
-    </div>
-  </div>
-</div>
-</div>
-
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
 </body>
 </html>

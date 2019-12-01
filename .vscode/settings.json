@@ -1,5 +1,19 @@
+// Place your settings in this file to overwrite default and user settings.
 {
-    "editor.tabSize": 2,
+    "search.exclude": {
+      "**/node_modules": true,
+      "dist/": true,
+      "**/yarn.lock": true
+    },
+    "files.trimTrailingWhitespace": true,
+    "editor.tabSize": 4,
     "editor.insertSpaces": true,
-    "editor.detectIndentation": false
-}
+    "[javascript]": {
+      "editor.formatOnSave": true
+    },
+    "clang-format.style": "Google",
+    "files.insertFinalNewline": true,
+    "editor.detectIndentation": false,
+    "editor.wrappingIndent": "none",
+    "clang-format.executable": "node_modules/.bin/clang-format"
+  }
