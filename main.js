@@ -14,8 +14,8 @@ import Element from './imgelement'
 class Main {
     constructor() {
 
-        this.imgElements = new Element();
         this.styleModel = new StyleModel();
+        this.imgElements = new Element();
 
         // Initialize buttons
         this.imgElements.runButton.onclick = () => {
