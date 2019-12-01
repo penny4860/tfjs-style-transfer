@@ -25,6 +25,7 @@ class Main {
             })
         };
 
+        // model 로드 로직이 끝나고 run 버튼을 enable
         Promise.all([
             this.styleModel.loadMobileNetStyleModel(),
             this.styleModel.loadSeparableTransformerModel(),
