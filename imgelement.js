@@ -1,26 +1,41 @@
 
+// images
+const ID_IMAGE_CONTENT = 'content-img';
+const ID_IMAGE_STYLE = 'style-img';
+const ID_IMAGE_STYLIZED = 'stylized';
+
+// selectors
+const ID_SELECT_CONTENT = 'content-select';
+const ID_SELECT_STYLE = 'style-select';
+
+// sliders
+const ID_SLIDER_CONTENT = 'content-img-size';
+const ID_SLIDER_STYLE = 'style-img-size';
+
+// buttons
+const ID_BUTTON_RUN = 'style-button';
 
 // 1. html 에 의존성이 있는 element 들을 정의
 export default class Element {
     constructor() {
 
         // image elements
-        this.contentImg = document.getElementById('content-img');
+        this.contentImg = document.getElementById(ID_IMAGE_CONTENT);
         this.contentImg.onerror = () => {
             alert("Error loading " + this.contentImg.src + ".");
         }
-        this.styleImg = document.getElementById('style-img');
+        this.styleImg = document.getElementById(ID_IMAGE_STYLE);
         this.styleImg.onerror = () => {
             alert("Error loading " + this.styleImg.src + ".");
         }
-        this.stylized = document.getElementById('stylized');
-        this.runButton = document.getElementById('style-button');
+        this.stylized = document.getElementById(ID_IMAGE_STYLIZED);
+        this.runButton = document.getElementById(ID_BUTTON_RUN);
 
-        connectImgAndSelector('content-img', 'content-select');
-        connectImgAndSlider('content-img', 'content-img-size');
+        connectImgAndSelector(ID_IMAGE_CONTENT, ID_SELECT_CONTENT);
+        connectImgAndSlider(ID_IMAGE_CONTENT, ID_SLIDER_CONTENT);
 
-        connectImgAndSelector('style-img', 'style-select');
-        connectImgAndSlider('style-img', 'style-img-size');
+        connectImgAndSelector(ID_IMAGE_STYLE, ID_SELECT_STYLE);
+        connectImgAndSlider(ID_IMAGE_STYLE, ID_SLIDER_STYLE);
     }
 
     enableRunButtons() {
