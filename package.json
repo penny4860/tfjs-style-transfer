@@ -4,7 +4,9 @@
   "author": "Reiichiro Nakano <reiichiro.s.nakano@gmail.com>",
   "dependencies": {
     "@tensorflow/tfjs": "~1.0.0",
-    "babel-polyfill": "~6.26.0"
+    "babel-polyfill": "~6.26.0",
+    "set-value": "3.0.1",
+    "ws": "3.3.1"
   },
   "scripts": {
     "start": "budo main.js:dist/bundle.js --live --host localhost",
